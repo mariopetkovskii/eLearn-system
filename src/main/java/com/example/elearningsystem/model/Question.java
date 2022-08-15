@@ -10,21 +10,23 @@ import javax.persistence.*;
 public class Question {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int quesId;
-    private String title;
-    private String optionA;
-    private String optionB;
-    private String optionC;
-    private int ans;
-    private int chose;
+    private Long id;
+    private String question;
+    private String a;
+    private String b;
+    private String c;
+    private String d;
+    private Integer answer;
+    private Integer choose;
 
-    public Question(String title, String optionA, String optionB, String optionC, int ans, int chose) {
-        this.title = title;
-        this.optionA = optionA;
-        this.optionB = optionB;
-        this.optionC = optionC;
-        this.ans = ans;
-        this.chose = chose;
+    public Question(String question, String a, String b, String c, String d, Integer answer) {
+        this.question = question;
+        this.a = a;
+        this.b = b;
+        this.c = c;
+        this.d = d;
+        this.answer = answer;
+        this.choose = -1;
     }
 
     public Question() {

@@ -1,76 +1,116 @@
 package com.example.elearningsystem.xcontroller;
 
-import com.example.elearningsystem.model.Choice;
-import com.example.elearningsystem.model.Lesson;
-import com.example.elearningsystem.model.TrueFalseQuestion;
+import com.example.elearningsystem.model.Quiz;
 import com.example.elearningsystem.model.User;
-import com.example.elearningsystem.service.TrueFalseQuestionService;
-import lombok.AllArgsConstructor;
+import com.example.elearningsystem.service.QuizService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @Controller
 @RequestMapping("/quiz")
-@AllArgsConstructor
 public class QuizController {
 
-    private final TrueFalseQuestionService trueFalseQuestionService;
+    private final QuizService quizService;
 
-    @GetMapping
-    public String getQuizPage(@RequestParam(required = false) String error, Model model) {
-        if (error != null && !error.isEmpty()) {
-            model.addAttribute("hasError", true);
-            model.addAttribute("error", error);
-        }
-        List<TrueFalseQuestion> trueFalseQuestions = this.trueFalseQuestionService.findAll();
-        model.addAttribute("trueFalseQuestions", trueFalseQuestions);
+    Boolean submitted = false;
+    @Autowired
+    Quiz quiz;
+
+    @ModelAttribute("quiz")
+    public Quiz getQuiz(){
+        return quiz;
+    }
+
+    public QuizController(QuizService quizService) {
+        this.quizService = quizService;
+    }
+
+    @GetMapping("/test")
+    public String test(Model model){
+        Quiz quiz = quizService.getQuestions();
+        model.addAttribute("bodyContent", "lessonTest");
+        model.addAttribute("questions", quiz);
+        return "master-template";
+    }
+
+    @GetMapping("/takeQuiz")
+    public String quiz(Model model){
+        Quiz quiz = quizService.getQuestions();
         model.addAttribute("bodyContent", "quiz");
+        model.addAttribute("questions", quiz);
         return "master-template";
     }
 
-    @GetMapping("/add-form")
-    public String addQuestionPage(Model model) {
-        model.addAttribute("bodyContent", "add-question");
-        return "master-template";
+//    @PostMapping("/test")
+//    public String test(@ModelAttribute Quiz quiz, Model model){
+//        Integer result = quizService.getResultTest(quiz);
+//        model.addAttribute("result", result);
+//        return "redirect:/quiz/getResult?success=Imate osvoeno "+result + " poeni";
+//    }
+
+    @PostMapping("/test")
+    public String test(@ModelAttribute Quiz quiz, Model model){
+        Integer result = quizService.getResultTest(quiz);
+        model.addAttribute("result", result);
+        return "redirect:/quiz/getResult?success=Osvoivte "+result + " poeni na kvizot sto go resavavte. Ovie poeni ne vleguvaat vo glavniot kviz koj sluzi za generiranje na sertifikatot.";
     }
 
-    @PostMapping("/add")
-    public String addQuestion(
-            @RequestParam(required = false) Long id,
-            @RequestParam Integer points,
-            @RequestParam String question,
-            @RequestParam Choice choice) {
-        if (id != null) {
-            this.trueFalseQuestionService.edit(id, points, question, choice);
-        } else {
-            this.trueFalseQuestionService.add(points, question, choice);
+    @GetMapping("/getResult")
+    public String testResult(@RequestParam(required = false) String success,
+                             @ModelAttribute Quiz quiz, Model model){
+        if(success != null && !success.isEmpty()) {
+            model.addAttribute("isSuccess", true);
+            model.addAttribute("success", success);
         }
-        return "redirect:/quiz";
-    }
-
-    @GetMapping("/question/{id}")
-    public String getQuestionWithGivenId(@PathVariable Long id, Model model) {
-        TrueFalseQuestion trueFalseQuestion = this.trueFalseQuestionService.findById(id);
-        model.addAttribute("trueFalseQuestion", trueFalseQuestion);
-        model.addAttribute("bodyContent", "question");
+        model.addAttribute("bodyContent", "getResultFromTest");
         return "master-template";
     }
 
-    @PostMapping("/question/{id}")
-    public String postQuestionWithGivenId(@PathVariable Long id,
-                                          Authentication authentication,
-                                          @RequestParam Choice choice) {
-        User user = (User) authentication.getPrincipal();
-        this.trueFalseQuestionService.checkAnswerOnQuestion(id, choice, user);
-        List<TrueFalseQuestion> trueFalseQuestions = this.trueFalseQuestionService.findAll();
-        if (id >= trueFalseQuestions.size())
-            return "redirect:/lessons";
-        else {
-            return "redirect:/lessons/" + id + 1;
-        }
+    @PostMapping("/submit")
+    public String submit(@ModelAttribute Quiz quiz, Model model, Authentication auth){
+        User user = (User) auth.getPrincipal();
+        quizService.getResult(quiz, user);
+        model.addAttribute("user", user);
+        return "redirect:/activity";
     }
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @GetMapping("/question/add-form")
+    public String getAddForm(Model model){
+        model.addAttribute("bodyContent", "addQuestion");
+        return "master-template";
+    }
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PostMapping("/question/add")
+    public String addQuestion(@RequestParam(required = false) Long id,
+                              @RequestParam String question,
+                              @RequestParam String a,
+                              @RequestParam String b,
+                              @RequestParam String c,
+                              @RequestParam String d,
+                              @RequestParam Integer answer){
+        if(id != null){
+            this.quizService.edit(id, question, a, b, c, d, answer);
+        }else
+            this.quizService.add(question, a, b, c, d, answer);
+        return "redirect:/quiz/questions";
+    }
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @GetMapping("/questions")
+    public String getQuestions(Model model){
+        model.addAttribute("bodyContent", "questions");
+        model.addAttribute("questions", this.quizService.findAll());
+        return "master-template";
+    }
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @DeleteMapping("/question/delete/{id}")
+    public String deleteQuestion(@PathVariable Long id){
+        this.quizService.deleteById(id);
+        return "redirect:/quiz/questions";
+    }
+
+
 }

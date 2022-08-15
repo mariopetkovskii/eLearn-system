@@ -4,6 +4,7 @@ import com.example.elearningsystem.model.Lesson;
 import com.example.elearningsystem.model.User;
 import com.example.elearningsystem.service.LessonService;
 import lombok.AllArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -31,13 +32,13 @@ public class LessonController {
         model.addAttribute("bodyContent", "lessons");
         return "master-template";
     }
-
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping("/add-form")
     public String addLessonPage(Model model) {
         model.addAttribute("bodyContent", "add-lesson");
         return "master-template";
     }
-
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PostMapping("/add")
     public String addLesson(
             @RequestParam(required = false) Long id,

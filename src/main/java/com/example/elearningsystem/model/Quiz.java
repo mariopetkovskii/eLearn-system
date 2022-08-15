@@ -2,14 +2,12 @@ package com.example.elearningsystem.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import org.springframework.stereotype.Component;
 
-import javax.persistence.*;
-import java.util.ArrayList;
 import java.util.List;
 
+@Component
+@Data
 public class Quiz {
-
-    public static List<TrueFalseQuestion> trueFalseQuestions = new ArrayList<>();
-
-
+    private List<Question> questionList;
 }

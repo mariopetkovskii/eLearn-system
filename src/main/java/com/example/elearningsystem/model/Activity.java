@@ -13,10 +13,23 @@ public class Activity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToMany
+    private String name;
+
+    private String description;
+
+    @ManyToMany
     private List<Lesson> lessons;
 
-    public Activity() {
+    private Boolean isDone;
+
+    public Activity(String name, String description) {
+        this.name = name;
+        this.description = description;
         this.lessons = new ArrayList<>();
+        this.isDone = false;
+    }
+
+    public Activity(){
+
     }
 }

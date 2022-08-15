@@ -1,0 +1,53 @@
+<div class="container">
+
+    <div class="row">
+        <div class="col-md-4">Активност</div>
+        <div class="col-md-5 offset-md-3">Опис</div>
+    </div>
+    <div th:each="activity : ${activities}">
+        <div class="row pt-3">
+            <div class="col-md-4">
+                <a th:href="@{'/activity/{activityId}' (activityId=${activity.getId()})}"
+                   class="btn btn-outline-secondary btn-block"
+                   th:text="${activity.getName()}"></a>
+            </div>
+            <div class="col-md-6 offset-md-2">
+                <th:block th:text="${activity.getDescription()}"></th:block>
+            </div>
+        </div>
+    </div>
+
+    <div class="pt-2" sec:authorize="hasRole('ROLE_ADMIN')">
+        <a href="/activity/add-form" class="btn btn-outline-dark">Додај нова активност</a>
+    </div>
+
+    <h6 class="text-success" th:text="${success}"></h6>
+    <div class="pt-3">
+        <h5>Главен квиз</h5>
+
+        <div class="pt-3" th:if="${user.getQuizDone()}">
+            <div th:if="${user.getPoints() >= 3}">
+                <p class="h3 text-success">Имате освоено
+                    <th:block th:text="${user.getPoints()}"></th:block>
+                    поен/и!
+                </p>
+                <a href="/pdf/generate" class="btn btn-outline-success">Генерирај сертификат!</a>
+                <a href="/quiz/takeQuiz" class="btn btn-outline-danger">Решавај од почеток</a>
+            </div>
+            <div th:if="${user.getPoints() < 3}">
+                <p class="h3 text-danger">Имате освоено
+                    <th:block th:text="${user.getPoints()}"></th:block>
+                    поен/и!
+                </p>
+                <a href="/quiz/takeQuiz" class="btn btn-outline-danger">Решавај од почеток</a>
+            </div>
+        </div>
+
+        <div class="pt-3" th:if="${!user.getQuizDone()}">
+
+                <a href="/quiz/takeQuiz" class="btn btn-outline-danger">Главен квиз</a>
+        </div>
+    </div>
+
+
+</div>

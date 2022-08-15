@@ -26,11 +26,11 @@ public class RegisterController {
 
     @PostMapping
     public String register(@RequestParam String username,
+                           @RequestParam String email,
                            @RequestParam String password,
                            @RequestParam String repeatedPassword,
                            @RequestParam String name,
-                           @RequestParam String surname,
-                           @RequestParam String email) {
+                           @RequestParam String surname) {
         try{
             this.userService.register(username, password, repeatedPassword, name, surname, email);
             return "redirect:/home";

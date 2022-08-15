@@ -5,6 +5,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
@@ -12,7 +13,7 @@ import java.util.stream.Collectors;
 
 @Data
 @Entity
-@Table(name = "shop_users")
+@Table(name = "eLearn_users")
 public class User implements UserDetails {
 
     @Id
@@ -37,6 +38,8 @@ public class User implements UserDetails {
     private Integer points = 0;
 
     private Boolean quizDone;
+    @ManyToMany
+    private List<Activity> activityList;
 
     public User() {
     }
@@ -50,6 +53,7 @@ public class User implements UserDetails {
         this.email = email;
         this.points = 0;
         this.quizDone = false;
+        this.activityList = new ArrayList<>();
     }
 
     @Override
