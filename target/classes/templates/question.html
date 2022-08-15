@@ -1,0 +1,27 @@
+
+
+<div class="card">
+    <ul class="list-group list-group-flush">
+        <li class="list-group-item">
+            <div class="col-md-11">
+                <th:block th:text="${trueFalseQuestion.getQuestion()}"/>
+            </div>
+            <div class="col-md-1">
+                <th:block th:text="${trueFalseQuestion.getPoints()}"/> поени
+            </div>
+            <form class="form-signin mt-xl-5" method="post" action="/quiz/question/{id}">
+                <p>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" name="choice" type="radio" id="TRUE" value="TRUE">
+                    <label class="form-check-label" for="TRUE">TRUE</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" name="choice" type="radio" id="FALSE" value="FALSE">
+                    <label class="form-check-label" for="FALSE">FALSE</label>
+                </div>
+                </p>
+                <button class="btn btn-lg btn-primary btn-block" type="submit">Add Question</button>
+            </form>
+        </li>
+    </ul>
+</div>

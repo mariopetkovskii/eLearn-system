@@ -1,0 +1,21 @@
+<div class="container">
+    <div class="row">
+        <div class="col-md-5">
+            <form action="/lessons/add" method="post">
+                <div class="form-group">
+                    <label for="name">Name</label>
+                    <input type="text" class="form-control" id="name" name="name" required
+                           placeholder="Enter name">
+                    <label for="desc">Description</label>
+                    <input type="text" class="form-control" id="desc" name="desc" required
+                           placeholder="Enter description">
+                    <label for="url">URL:</label>
+                    <input type="text" class="form-control" id="url" name="url" required
+                           placeholder="example: www.google.com">
+                </div>
+                <button type="submit" class="btn btn-primary">Submit</button>
+                <a type="button" class="btn btn-primary" href="/lessons">Back</a>
+            </form>
+        </div>
+    </div>
+</div>

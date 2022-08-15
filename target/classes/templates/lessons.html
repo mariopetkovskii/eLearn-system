@@ -1,0 +1,74 @@
+<div class="container pt-2">
+    <div class="d-flex justify-content-center">
+        <img src="https://www.pngall.com/wp-content/uploads/2016/07/Anonymous-Mask-PNG-Image.png" alt=""
+             style="width:20%">
+    </div>
+    <div class="d-flex justify-content-center pt-3 pb-5">
+        <p class="font-weight-bold">Активност</p>
+    </div>
+
+    <div class="pb-10">
+        <div th:each="lesson : ${lessons}" class="pb-3">
+            <div class="row">
+                <div class="col-md-4 offset-md-1">
+                    <button type="button" class="btn btn-outline-dark btn-block font-weight-bold" data-toggle="modal"
+                            th:data-target="'#exampleModal'+${lesson.getId()}">
+                        <th:block th:text="${lesson.getName()}"/>
+                    </button>
+                    <!-- Modal -->
+                    <div class="modal fade" th:id="'exampleModal'+${lesson.getId()}" tabindex="-1" role="dialog"
+                         aria-labelledby="exampleModalLabel"
+                         aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <iframe width="470" height="400" th:src="${lesson.getUrl()}"
+                                            title="Bon Jovi - Bed Of Roses (Official Music Video)" frameborder="0"
+                                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                            allowfullscreen></iframe>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6 offset-md-1">
+                    <th:block th:text="${lesson.getDescription()}"/>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div>
+        <a href="/lessons/add-form" class="btn btn-outline-dark">Додај нова лекција</a>
+    </div>
+
+    <div class="pt-3" th:if="${user.getQuizDone()}">
+        <div th:if="${user.getPoints() >= 3}">
+            <p class="h3 text-success">Имате освоено
+                <th:block th:text="${user.getPoints()}"></th:block>
+                поен/и!
+            </p>
+            <a href="/pdf/generate" class="btn btn-outline-success">Генерирај сертификат!</a>
+            <a href="/quiz/takeQuiz" class="btn btn-outline-danger">Решавај од почеток</a>
+        </div>
+        <div th:if="${user.getPoints() < 3}">
+            <p class="h3 text-danger" >Имате освоено
+                <th:block th:text="${user.getPoints()}"></th:block>
+                поен/и!
+            </p>
+            <a href="/quiz/takeQuiz" class="btn btn-outline-danger">Решавај од почеток</a>
+        </div>
+    </div>
+
+
+</div>

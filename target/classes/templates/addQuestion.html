@@ -1,0 +1,30 @@
+<div class="container">
+    <div class="row">
+        <div class="col-md-5">
+            <form action="/quiz/question/add" method="post">
+                <div class="form-group">
+                    <label for="question">Question</label>
+                    <input type="text" class="form-control" id="question" name="question" required
+                           placeholder="Enter question">
+                    <label for="a">Option a</label>
+                    <input type="text" class="form-control" id="a" name="a" required
+                           placeholder="Option a">
+                    <label for="b">Option b</label>
+                    <input type="text" class="form-control" id="b" name="b" required
+                           placeholder="Option b">
+                    <label for="c">Option c</label>
+                    <input type="text" class="form-control" id="c" name="c" required
+                           placeholder="Option c">
+                    <label for="d">Option d</label>
+                    <input type="text" class="form-control" id="d" name="d" required
+                           placeholder="Option d">
+                    <label for="answer">Answer</label>
+                    <input type="text" class="form-control" id="answer" name="answer" required
+                           placeholder="Enter answer">
+                </div>
+                <button type="submit" class="btn btn-primary">Submit</button>
+                <a type="button" class="btn btn-primary" href="/quiz/questions">Back</a>
+            </form>
+        </div>
+    </div>
+</div>

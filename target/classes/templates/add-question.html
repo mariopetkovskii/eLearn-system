@@ -1,0 +1,23 @@
+<form class="form-signin mt-xl-5" method="post" action="/quiz/add">
+    <p>
+        <label for="points" class="sr-only">Points</label>
+        <input type="number" id="points" name="points" class="form-control" placeholder="Points" required=""
+               autofocus="">
+    </p>
+    <p>
+        <label for="question" class="sr-only">Question</label>
+        <input type="text" id="question" name="question" class="form-control" placeholder="Question.."
+               required="">
+    </p>
+    <p>
+    <div class="form-check form-check-inline">
+        <input class="form-check-input" name="choice" type="radio" id="TRUE" value="TRUE">
+        <label class="form-check-label" for="TRUE">TRUE</label>
+    </div>
+    <div class="form-check form-check-inline">
+        <input class="form-check-input" name="choice" type="radio" id="FALSE" value="FALSE">
+        <label class="form-check-label" for="FALSE">FALSE</label>
+    </div>
+    </p>
+    <button class="btn btn-lg btn-primary btn-block" type="submit">Add Question</button>
+</form>
