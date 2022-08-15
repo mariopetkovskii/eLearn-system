@@ -12,6 +12,9 @@
                     <li class="nav-item m-auto">
                         <a class="nav-link active" sec:authorize="isAuthenticated()" href="/activity">Активности</a>
                     </li>
+                    <li class="nav-item m-auto">
+                        <a class="nav-link active" sec:authorize="hasRole('ROLE_ADMIN')" href="/admin">Админ страна</a>
+                    </li>
                 </ul>
 
 
