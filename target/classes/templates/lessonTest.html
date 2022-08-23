@@ -5,22 +5,25 @@
                 Прашање:
                 <p class="title" th:text="${ques.question}"></p>
                 Одговор:
-                <input type="radio" th:name="|questionList[${i.index}].choose|" th:value="1" th:text="${ques.a}"/>
+                <div>
+                    <input type="radio" th:name="|questionList[${i.index}].choose|" th:value="1" th:text="${ques.a}"/>
+                </div>
+                <div>
 
+                    <input type="radio" th:name="|questionList[${i.index}].choose|" th:value="2" th:text="${ques.b}"/>
+                </div>
+                <div>
+                    <input type="radio" th:name="|questionList[${i.index}].choose|" th:value="3" th:text="${ques.c}"/>
+                </div>
 
-                <input type="radio" th:name="|questionList[${i.index}].choose|" th:value="2" th:text="${ques.b}"/>
-
-
-                <input type="radio" th:name="|questionList[${i.index}].choose|" th:value="3" th:text="${ques.c}"/>
-
-
-                <input type="radio" th:name="|questionList[${i.index}].choose|" th:value="4" th:text="${ques.c}"/>
-
+                <div>
+                    <input type="radio" th:name="|questionList[${i.index}].choose|" th:value="4" th:text="${ques.d}"/>
+                </div>
 
                 <input type="hidden" th:name="|questionList[${i.index}].id|" th:value="${ques.id}"/>
                 <input type="hidden" th:name="|questionList[${i.index}].question|" th:value="${ques.question}"/>
                 <input type="hidden" th:name="|questionList[${i.index}].answer|" th:value="${ques.answer}"/>
-                <hr />
+                <hr/>
             </div>
 
             <button type="submit" class="btn btn-danger d-block mx-auto mt-4">Submit Answer</button>
